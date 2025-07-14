@@ -1,0 +1,26 @@
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+/* :root {
+  --Primary-color : #FFC529;
+  --Second-color: #FE724C;
+  --bg-color: #D7D7D7;
+  --Black: #131516;
+  --text-color: #131516;
+} */
+
+html, body {
+  height: auto !important;
+  overflow-y: auto !important;
+  font-family: 'Poppins', sans-serif;
+  /* font-family: 'Montserrat', sans-serif; */
+}
+
+/* [data-theme="dark"] {
+  --bg-color: #111;
+  --text-color: white;
+} */
+
+

@@ -1,0 +1,38 @@
+/* Add these to your existing SignUp.css file */
+
+.forgot-password {
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+.forgot-password a {
+  color: var(--Second-color);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.forgot-password a:hover {
+  text-decoration: underline;
+}
+
+/* Adjust the button styles if needed */
+.signup button {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--Second-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.signup button:hover:not(:disabled) {
+  background-color: #e05a3a;
+}
+
+.signup button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}

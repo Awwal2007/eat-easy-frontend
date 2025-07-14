@@ -1,0 +1,212 @@
+.seller-signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+  padding: 20px;
+}
+
+.seller-signup-card {
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 900px;
+  padding: 40px;
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #666;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.close-btn:hover {
+  color: var(--Second-color);
+}
+
+.signup-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.signup-header h2 {
+  font-size: 28px;
+  color: var(--Black);
+  margin-bottom: 10px;
+}
+
+.signup-header p {
+  color: #666;
+}
+
+.alert {
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.alert.error {
+  background-color: #ffebee;
+  color: #d32f2f;
+  border-left: 4px solid #d32f2f;
+}
+
+.alert.success {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border-left: 4px solid #2e7d32;
+}
+
+.form-section {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.form-section:last-child {
+  border-bottom: none;
+}
+
+.form-section h3 {
+  font-size: 18px;
+  color: var(--Black);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.form-section h3::before {
+  content: '';
+  display: block;
+  width: 5px;
+  height: 20px;
+  background-color: var(--Primary-color);
+  border-radius: 3px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #444;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--Second-color);
+  outline: none;
+}
+
+.form-group.error input,
+.form-group.error select,
+.form-group.error textarea {
+  border-color: #d32f2f;
+}
+
+.error-message {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #d32f2f;
+}
+
+.form-group-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  grid-column: span 2;
+}
+
+.form-footer {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.submit-btn {
+  background-color: var(--Second-color);
+  color: white;
+  border: none;
+  padding: 14px 30px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+  max-width: 300px;
+}
+
+.submit-btn:hover {
+  background-color: #e05a3a;
+}
+
+.submit-btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.login-link {
+  margin-top: 15px;
+  color: #666;
+}
+
+.login-link button {
+  background: none;
+  border: none;
+  color: var(--Second-color);
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .seller-signup-card {
+    padding: 30px 20px;
+  }
+  
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-group-group {
+    grid-template-columns: 1fr;
+    grid-column: span 1;
+  }
+}

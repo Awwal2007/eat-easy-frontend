@@ -1,0 +1,169 @@
+.seller-login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+  padding: 20px;
+}
+
+.seller-login-card {
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 450px;
+  padding: 40px;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.login-header h2 {
+  font-size: 28px;
+  color: var(--Black);
+  margin-bottom: 10px;
+}
+
+.login-header p {
+  color: #666;
+}
+
+.alert {
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.alert.error {
+  background-color: #ffebee;
+  color: #d32f2f;
+  border-left: 4px solid #d32f2f;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #444;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+  border-color: var(--Second-color);
+  outline: none;
+}
+
+.form-group.error input {
+  border-color: #d32f2f;
+}
+
+.error-message {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #d32f2f;
+}
+
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+  font-size: 14px;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.remember-me input {
+  width: auto;
+}
+
+.forgot-password {
+  color: var(--Second-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.forgot-password:hover {
+  color: #e05a3a;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--Second-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.login-btn:hover {
+  background-color: #e05a3a;
+}
+
+.login-btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.signup-link {
+  margin-top: 20px;
+  text-align: center;
+  color: #666;
+}
+
+.signup-link a {
+  color: var(--Second-color);
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.signup-link a:hover {
+  color: #e05a3a;
+}
+
+/* Responsive Styles */
+@media (max-width: 576px) {
+  .seller-login-card {
+    padding: 30px 20px;
+  }
+  
+  .form-options {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
