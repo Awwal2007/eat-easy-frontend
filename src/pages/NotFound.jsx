@@ -2,37 +2,22 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 
-const styles = {
-  container: {
-    height: "100vh",
-    textAlign: "center",
+const NotFound = () => {
+  return (
+    <div style={{height: "100vh",textAlign: "center",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    background: "#f8f8f8",
-  },
-  title: {
-    fontSize: "48px",
+    background: "#f8f8f8",}}>
+      <h1 style={{fontSize: "48px",
     marginBottom: "16px",
-    color: "#333",
-  },
-  text: {
-    fontSize: "18px",
+    color: "#333",}}>404 - Page Not Found</h1>
+      <p style={{fontSize: "18px",
     marginBottom: "24px",
-    color: "#555",
-  },
-  link: {
-    textDecoration: "none",
-    color: "#007bff",
-    fontSize: "18px",
-  },
-};
-const NotFound = () => {
-  return (
-    <div style={styles.container}>
-      <h1 style={styles.title}>404 - Page Not Found</h1>
-      <p style={styles.text}>Sorry, the page you're looking for doesn't exist.</p>
-      <Link to="/" style={styles.link}>Go back home</Link>
+    color: "#555",}}>Sorry, the page you're looking for doesn't exist.</p>
+      <Link to="/" style={{textDecoration: "none",
+    color: "#ffbf00ff",
+    fontSize: "18px",}}>Go back home</Link>
     </div>
   );
 };
