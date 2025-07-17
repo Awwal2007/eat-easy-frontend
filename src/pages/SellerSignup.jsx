@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { FiUser, FiMail, FiPhone, FiLock, FiMapPin, FiHome, FiX } from 'react-icons/fi'
+import { FiUser, FiMail, FiPhone, FiLock, FiMapPin, FiHome, FiX, FiImage } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import axios from 'axios'
@@ -21,7 +21,8 @@ const SellerSignup = () => {
     description: '',
     openingTime: '09:00',
     closingTime: '21:00',
-    deliveryRadius: 5
+    deliveryRadius: 5,
+    authImage: null
   })
   
   const [errors, setErrors] = useState({})
@@ -31,10 +32,10 @@ const SellerSignup = () => {
 
   const baseUrl = import.meta.env.VITE_BASE_URL
   const handleChange = (e) => {
-    const { name, value } = e.target
+    const { name, value, files } = e.target
     setFormData({
       ...formData,
-      [name]: value
+        [name]: name === "authImage" ? files[0] : value
     })
     // Clear error when user types
     if (errors[name]) {
@@ -49,6 +50,7 @@ const SellerSignup = () => {
     const newErrors = {}
     
     if (!formData.name.trim()) newErrors.name = 'Name is required'
+    if (!formData.authImage) newErrors.authImage = 'Profile image is required'
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required'
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
@@ -72,35 +74,41 @@ const SellerSignup = () => {
     e.preventDefault()
     setApiError('')
     setSuccessMessage('')
-    
+
     if (validateForm()) {
       setIsSubmitting(true)
-      
+
       try {
-        // API call to register seller
-        const response = await axios.post(`${baseUrl}/seller/signup`, formData)
-        console.log(response);
-        
+        const payload = new FormData()
+        Object.keys(formData).forEach((key) => {
+          payload.append(key, formData[key])
+        })
+
+        const response = await axios.post(`${baseUrl}/seller/signup`, payload, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+
         if (response.data.status === "success") {
           setSuccessMessage(response.data.message)
           toast.success(response.data.message)
-          // Store token in localStorage or context
           localStorage.setItem('sellerToken', response.data.token)
-          // Redirect after 2 seconds
           setTimeout(() => {
             navigate('/seller-signin')
           }, 2000)
-        }else{
-          setApiError("failed to sign up")
+        } else {
+          setApiError("Failed to sign up")
         }
       } catch (error) {
         console.error('Registration error:', error)
         setApiError(error.response?.data?.message || 'An error occurred during registration')
-      } finally {       
+      } finally {
         setIsSubmitting(false)
       }
     }
   }
+
 
   return (
     <div className="seller-signup-container">
@@ -179,6 +187,25 @@ const SellerSignup = () => {
                   placeholder="At least 6 characters"
                 />
                 {errors.password && <span className="error-message">{errors.password}</span>}
+              </div>
+              <div className={`form-group ${errors.password ? 'error' : ''}`}>
+                <label htmlFor="image">
+                  <FiImage /> Image
+                </label>
+                <input
+                  type="file"
+                  id="authImage"
+                  accept='image/*'
+                  name="authImage"
+                  onChange={handleChange}
+                />
+                {formData.authImage && (
+                    <div className="image-preview">
+                        <p>Selected:</p>
+                        <img style={{height: "100px"}} src={URL.createObjectURL(formData.authImage)} alt="" />
+                    </div>
+                )}
+                {errors.authImage && <span className="error-message">{errors.authImage}</span>}
               </div>
             </div>
           </div>

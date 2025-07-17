@@ -44,6 +44,24 @@
   align-items: center;
   gap: 20px;
 }
+.user-header-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-profile-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: relative;
+}
+
+a{
+  text-decoration: none;
+  color: black;
+}
 
 .search-box {
   position: relative;
@@ -96,6 +114,8 @@
   align-items: center;
   justify-content: center;
   font-size: 12px;
+  animation: bounce 0.3s ease;
+  
 }
 
 .menu-toggle {
@@ -115,4 +135,10 @@
   position: absolute;
   top: 20px;
   right: 20px;
+}
+
+@keyframes bounce {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.3); }
+  100% { transform: scale(1); }
 }

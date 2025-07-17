@@ -20,6 +20,10 @@ import { CartProvider } from './contexts/CartProvider';
 import ProtedtedRoutes from './components/ProtectedRoute';
 import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
+import UserProfile from './pages/UserProfile';
+import MyWishList from './pages/MyWishList';
+import CategoryPage from './pages/CategoryPage';
+import OrderSuccessPage from './pages/OrderSuccessPage';
 
 // Wrapper component to use hooks like useLocation
 const AppContent = () => {
@@ -31,7 +35,8 @@ const AppContent = () => {
     '/signin', 
     '/seller-dashboard', 
     '/seller-signin', 
-    '/seller-signup'
+    '/seller-signup',
+    '/add-product'
   ];
 
   return (
@@ -51,12 +56,16 @@ const AppContent = () => {
                 <Route path='/seller-dashboard' element={<SellerDashboard />} />
                 <Route path='/add-product' element={<AddProductForm />} />
                 <Route path='/all-product' element={<AllProduct />} />
-                <Route path='/checkout' element={<CheckoutPage />} />
                 <Route path='/product/:id' element={<SingleProduct />} />
                 <Route path="/verify/:token" element={<VerifyAccount />}/>
+                <Route path="/category/:category" element={<CategoryPage />}/>
 
                 <Route element={<ProtedtedRoutes />}>
+                  <Route path="/user-profile" element={<UserProfile />}/>
+                  <Route path="/wish-list" element={<MyWishList />}/>
                   <Route path='/cart' element={<CartPage />} />
+                  <Route path='/checkout' element={<CheckoutPage />} />
+                  <Route path='/order-success' element={<OrderSuccessPage />} />
                 </Route>
               </Routes>
 

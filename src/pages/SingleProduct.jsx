@@ -6,6 +6,7 @@ import { useCart } from '../Hooks/useCart';
 import { FiPlus, FiMinus, FiShoppingCart } from 'react-icons/fi';
 
 
+
 import './css/SingleProduct.css';
 
 const SingleProduct = () => {
@@ -18,7 +19,7 @@ const SingleProduct = () => {
         resetProduct
     } = useProduct();
 
-    const { addToCart, cartIsLoading } = useCart();
+    const { addToCart, cartIsLoading, fetchCart, addToWishList, isWishListLoading } = useCart();
     let [cartField, setCartField] = useState({});
     let [quantity, setQuantity] = useState();
     const [inputVal, setInputVal] = useState(1);
@@ -56,6 +57,44 @@ const SingleProduct = () => {
             setCartField({});
             setInputVal(1);
             setQuantity(1);
+            fetchCart()
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
+    const handleAddToWishList = async () => {
+        try {
+            const product = singleProduct?.food;
+            if (!singleProduct) {
+                throw new Error('Product information is not available');
+            }
+            if (!product) {
+                throw new Error('Product data is not available');
+            }
+
+            const user = JSON.parse(localStorage.getItem('user'))
+            const originalUser = user?.userData || user;
+
+            cartField.title = product?.title
+            cartField.description = product?.description
+            cartField.price = product?.price
+            cartField.category = product?.category
+            cartField.image = product?.image
+            cartField.productId = product?._id
+            if (quantity < 1) {
+                throw new Error('Quantity must be at least 1');
+            }
+            cartField.quantity = quantity // Default quantity
+            cartField.subTotal = parseInt(product?.price * quantity) 
+            cartField.rating = product?.rating
+            cartField.createdBy = originalUser?._id
+
+            await addToWishList(cartField);
+            // toast.success(`${product.title} added to cart successfully`);
+            setCartField({});
+            setInputVal(1);
+            setQuantity(1);
+            fetchCart()
         } catch (error) {
             toast.error(error.message);
         }
@@ -75,7 +114,7 @@ const SingleProduct = () => {
         if (inputVal > 1) {
             setTimeout(() => {
                 toast.success(`Quantity set to ${inputVal}`); 
-            }, 2000);           
+            }, 500);           
         }
         // console.log(`Quantity set to ${inputVal}`);
     }, [inputVal]);
@@ -172,7 +211,7 @@ const SingleProduct = () => {
         </div>
         
         <p className="product-description">{food.description}</p>
-        
+        <p className="product-description">{food?.item?.restuorantName}</p>        
            <div className="quantity-selector">
                 <button 
                     className="quantity-btn" 
@@ -191,8 +230,11 @@ const SingleProduct = () => {
             </div>
 
         <div className="action-buttons">
+            <button className="add-to-cart" onClick={handleAddToWishList} disabled={cartIsLoading || !singleProduct?.food?._id}>
+               <FiShoppingCart size={20} /> {isWishListLoading ? " Adding..." : " Add to WishList"}
+            </button>
             <button className="add-to-cart" onClick={handleAddToCart} disabled={cartIsLoading || !singleProduct?.food?._id}>
-               <FiShoppingCart size={20} /> {cartIsLoading ? " Adding" : " Add to Cart"}
+               <FiShoppingCart size={20} /> {cartIsLoading ? " Adding..." : " Add to Cart"}
             </button>
           {/* <button className="buy-now">Buy Now</button> */}
         </div>

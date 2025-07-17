@@ -39,13 +39,16 @@ const SellerLogin = () => {
       const data = await response.json();
       console.log(data);
       if (data.status === "success") {
-        
-        
-        toast.success("Login successful");
+        if (data.seller.isVerified === true) {
+          toast.success("Login successful");
         // Store token and user data
-        localStorage.setItem("sellerToken", data.accessToken);
-        // localStorage.setItem("sellerData", JSON.stringify(data.user));
-        navigate("/seller-dashboard");
+          localStorage.setItem("sellerToken", data.accessToken);
+          localStorage.setItem("sellerData", JSON.stringify(data.seller));
+          navigate("/seller-dashboard");
+        } else {
+          toast.error("Your account is not verified. Please check your email.");
+          return;
+        }
       } else {
         toast.error(data.message || "Login failed");
       }

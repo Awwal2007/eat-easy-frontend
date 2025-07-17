@@ -13,16 +13,21 @@ const VerifyAccount = () => {
     
   return (
     <div>
-      <h1>Verify Account</h1>
-      {
-        verifyingAccount ? (
-          <h1>Verifying account ........</h1>
+  
+      <div style={{ textAlign: "center", padding: "2rem" }}>
+        <h1>Verify Account</h1>
+        {verifyingAccount ? (
+          <p style={{ fontSize: "1.2rem" }}>Verifying account...</p>
         ) : (
-          <h1 style={{
+          <p style={{
+            fontSize: "1.2rem",
             color: verificationData?.status === "error" ? "red" : "green"
-          }}>{verificationData?.message}</h1>
-        )
-      }
+          }}>
+            {verificationData?.message}
+          </p>
+        )}
+      </div>
+
     </div>
   )
 }

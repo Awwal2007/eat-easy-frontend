@@ -19,72 +19,33 @@ const SellerDashboard = () => {
   //   totalRevenue: 0
   // });
   const navigate = useNavigate();
-  const baseUrl = import.meta.env.VITE_BASE_URL;
+  // const baseUrl = import.meta.env.VITE_BASE_URL;
   // const {user} = useAuth();
   
-  const getUserIdFromToken = () => {
-  const token = localStorage.getItem('accessToken');
-  if (!token) return null;
+  const fetchSellerData = () => {
+  const seller = localStorage.getItem('sellerData');
+  if (!seller) return null;
   
   try {
-    // Decode the token without verification (frontend only)
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    // console.log(payload);
-    // setSellerName(payload.name || payload.email)
-    return payload.id; // or payload.sub, depending on your token structure
+    const data = JSON.parse(seller);
+    setSellerName(data.restaurantName || data.name || data.email);
+    setSellerData(data);
+
+    
   } catch (error) {
     console.error('Error decoding token:', error);
-    return null;
   }
 };
 
 // Usage
-const userId = getUserIdFromToken();
+// const userId = getUserIdFromToken();
   // Fetch seller data on component mount
   useEffect(() => {
-    const fetchSellerData = async () => {
-      try {
-        const token = localStorage.getItem('sellerToken');
-        if (!token) {
-          navigate('/seller-login');
-          return;
-        }
-        
-        const payload = jwtDecode(token)
-        setSellerName(payload.name || payload.email)
-        
-        const response = await fetch(`${baseUrl}/seller/${userId}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-
-        const data = await response.json();
-
-        if (data.status === 'success') {
-          setSellerData(data.user);
-          // setOrders(data.data.recentOrders || []);
-          // setStats(data.data.stats || {
-          //   totalOrders: 0,
-          //   completedOrders: 0,
-          //   pendingOrders: 0,
-          //   totalRevenue: 0
-          // });
-        } else {
-          toast.error(data.message || 'Failed to fetch dashboard data');
-          // navigate('/seller-signin');
-        }
-      } catch (error) {
-        console.error('Dashboard error:', error);
-        toast.error('An error occurred while loading dashboard');
-        // navigate('/seller-signin');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchSellerData();
-  }, [baseUrl, navigate, userId]);
+    fetchSellerData()
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('sellerToken');
@@ -191,7 +152,7 @@ const userId = getUserIdFromToken();
             </button>
             <div className="user-profile">
               <img 
-                src={sellerData?.profilePicture || 'https://via.placeholder.com/40'} 
+                src={sellerData?.image || "??"} 
                 alt="Profile" 
                 className="profile-img"
               />

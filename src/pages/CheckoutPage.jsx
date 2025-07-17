@@ -3,10 +3,12 @@ import { FiArrowLeft, FiCreditCard, FiMapPin, FiClock, FiUser } from 'react-icon
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import './css/CheckoutPage.css';
+import { useCart } from '../Hooks/useCart';
+import axios from 'axios';
+import { FaPhone } from 'react-icons/fa';
 
 const CheckoutPage = () => {
   const [cartItems, setCartItems] = useState([]);
-  const [restaurant, setRestaurant] = useState(null);
   const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
@@ -16,17 +18,16 @@ const CheckoutPage = () => {
     paymentMethod: 'cash'
   });
   const [errors, setErrors] = useState({});
+
+  const {fetchCart, cart} = useCart();
   const navigate = useNavigate();
 
   // Load cart and restaurant data
   useEffect(() => {
     const loadCheckoutData = () => {
       try {
-        const savedCart = JSON.parse(localStorage.getItem('cart')) || [];
-        const restaurantData = JSON.parse(localStorage.getItem('currentRestaurant')) || null;
         
-        setCartItems(savedCart);
-        setRestaurant(restaurantData);
+        setCartItems(cart);
         
         // Pre-fill user data if available
         const userData = JSON.parse(localStorage.getItem('user')) || {};
@@ -47,16 +48,10 @@ const CheckoutPage = () => {
     loadCheckoutData();
   }, []);
 
-  const calculateSubtotal = () => {
-    return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
-  };
+  useEffect(() => {
+    fetchCart();      
+  }, []);
 
-  const calculateTotal = () => {
-    const subtotal = calculateSubtotal();
-    const deliveryFee = restaurant?.deliveryFee || 0;
-    const tax = subtotal * 0.1; // 10% tax
-    return subtotal + deliveryFee + tax;
-  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -86,44 +81,63 @@ const CheckoutPage = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  const calculateTotal = () => {
+    return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (cartItems.length === 0) {
       toast.error('Your cart is empty');
-      navigate('/restaurants');
+      navigate('/all-product');
       return;
     }
 
     if (!validateForm()) return;
 
+    const baseUrl = import.meta.env.VITE_BASE_URL;
+    const token = localStorage.getItem('accessToken');
+
     try {
-      // In a real app, you would call your API here
       const orderData = {
-        restaurantId: restaurant?._id,
         items: cartItems,
-        customerInfo: formData,
-        subtotal: calculateSubtotal(),
-        deliveryFee: restaurant?.deliveryFee || 0,
-        tax: calculateSubtotal() * 0.1,
-        total: calculateTotal(),
-        status: 'pending'
+        address: formData.address,
+        deliveryInstructions: formData.deliveryInstructions,
+        paymentMethod: formData.paymentMethod,
+        status: 'pending',
+        totalAmount: calculateTotal().toFixed(2),
       };
 
-      // Simulate API call
-      console.log('Submitting order:', orderData);
-      
-      // Clear cart after successful order
-      localStorage.removeItem('cart');
-      localStorage.removeItem('currentRestaurant');
-      
-      toast.success('Order placed successfully!');
-      navigate('/order-confirmation', { state: { order: orderData } });
+      const orderResponse = await axios.post(`${baseUrl}/order`, orderData, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const orderResult = orderResponse.data;
+
+      if (orderResult.status === 'success') {
+        const cartResponse = await axios.delete(`${baseUrl}/cart`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        console.log(cartResponse.data.message);
+      }
+
+      toast.success(orderResult.message);
+      console.log(orderResult)
+      navigate('/order-success', {state: orderResult})
     } catch (error) {
       console.error('Order submission error:', error);
       toast.error('Failed to place order');
     }
   };
+
 
   if (loading) {
     return (
@@ -139,8 +153,8 @@ const CheckoutPage = () => {
       <div className="empty-cart-container">
         <h2>Your cart is empty</h2>
         <p>Add some items to your cart before checking out</p>
-        <Link to="/restaurants" className="browse-button">
-          Browse Restaurants
+        <Link to="/all-products" className="browse-button">
+          Browse Foods
         </Link>
       </div>
     );
@@ -264,41 +278,26 @@ const CheckoutPage = () => {
           <h2>Order Summary</h2>
           
           <div className="order-restaurant">
-            <img src={restaurant?.logo} alt={restaurant?.name} className="restaurant-logo" />
+            {/* <img src={cartItems?.logo} alt={cartItems?.user?.name} className="restaurant-logo" /> */}
             <div>
-              <h3>{restaurant?.name}</h3>
-              <p>{restaurant?.cuisineType}</p>
+              <h3>{cartItems?.user?.name}</h3>
+              {/* <p>{restaurant?.cuisineType}</p> */}
             </div>
           </div>
           
           <div className="order-items">
             {cartItems.map(item => (
-              <div key={item.id} className="order-item">
+              <div key={item._id} className="order-item">
                 <div className="item-info">
                   <span className="item-quantity">{item.quantity}x</span>
-                  <span className="item-name">{item.name}</span>
+                  <span className="item-name">{item.title}</span>
                 </div>
                 <span className="item-price">${(item.price * item.quantity).toFixed(2)}</span>
               </div>
             ))}
           </div>
           
-          <div className="order-totals">
-            <div className="total-row">
-              <span>Subtotal</span>
-              <span>${calculateSubtotal().toFixed(2)}</span>
-            </div>
-            
-            <div className="total-row">
-              <span>Delivery Fee</span>
-              <span>${restaurant?.deliveryFee?.toFixed(2) || '0.00'}</span>
-            </div>
-            
-            <div className="total-row">
-              <span>Tax (10%)</span>
-              <span>${(calculateSubtotal() * 0.1).toFixed(2)}</span>
-            </div>
-            
+          <div className="order-totals">                                    
             <div className="total-row grand-total">
               <span>Total</span>
               <span>${calculateTotal().toFixed(2)}</span>

@@ -4,12 +4,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import './css/CartPage.css';
 import { useCart } from '../Hooks/useCart';
-
+import useMediaQuery from '../components/MediaQuery'
 
 
 const CartPage = () => {
   // const [cartItems, setCartItems] = useState([]);
   // const [loading, setLoading] = useState(true);
+  const isMobile = useMediaQuery('(max-width: 500px)')
   const navigate = useNavigate();
   const {deleteCart, cart, fetchCart, cartIsLoading,  } = useCart();
 
@@ -60,7 +61,7 @@ const CartPage = () => {
           <FiArrowLeft />
         </button>
         <h1>Your Cart</h1>
-        <div className="cart-icon">
+        <div style={{left: isMobile ? "310px" : "500px"}} className="cart-icon">
           <FiShoppingCart />
           {cart.length > 0 && (
             <span className="cart-count">{cart ? cart.length : 0}</span>

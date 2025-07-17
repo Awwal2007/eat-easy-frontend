@@ -1,19 +1,45 @@
 import { useState, useEffect } from 'react';
 import { FiSearch, FiShoppingCart, FiUser, FiMenu, FiX, FiStar } from 'react-icons/fi';
+import { 
+  GiChopsticks, 
+  GiBarbecue, 
+  GiSlicedBread, 
+  GiHamburger,
+  GiCakeSlice,
+  GiCoffeeCup,
+  GiIndiaGate,
+  GiTacos,
+  GiCupcake,
+  GiFullPizza,
+  GiOpenedFoodCan,
+  GiSandwich,
+  GiFishCooked,
+  GiPlantRoots
+} from 'react-icons/gi';
 import { FaMotorcycle, FaClock, FaStoreAlt } from 'react-icons/fa';
 import './css/Home.css';
 import logo from "../assets/eat-easy logo head.png";
 import heroImg from "../assets/delivary-man-png.png";
 import { toast } from 'sonner';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Home() {
   const [allProducts, setAllProducts] = useState([]);
   const [nearbyRestaurants, setNearbyRestaurants] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
   
   const baseUrl = import.meta.env.VITE_BASE_URL;
+
+  const topRatedFoods = [...allProducts]
+  .sort((a, b) => (b.rating || 0) - (a.rating || 0))
+  .slice(0, 4);
+
+  const latestFoods = [...allProducts]
+  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+  .slice(0, 4)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,12 +48,13 @@ function Home() {
         setError(null);
         
         // Fetch all products
-        const productsResponse = await fetch(`${baseUrl}/food`);
-        if (!productsResponse.ok) {
+        const productsResponse = await axios.get(`${baseUrl}/food`);
+        const productsData =  productsResponse.data;
+        if (productsData.status !== "success") {
           throw new Error(`Failed to fetch products: ${productsResponse.status}`);
         }
-        const productsData = await productsResponse.json();
-        console.log(productsData);
+        
+        console.log(productsResponse);
         
         setAllProducts(Array.isArray(productsData) ? productsData : productsData.foods || []);
 
@@ -105,6 +132,40 @@ function Home() {
         </div>
       </section>
 
+      {/* Food Categories Section */}
+      <section className="food-categories">
+        <div className="container-home">
+          <h2>Food Categories</h2>
+          <div className="categories-grid">
+            {[
+              { name: 'Asian', icon: <GiChopsticks /> },
+              { name: 'BBQ', icon: <GiBarbecue /> },
+              { name: 'Breakfast', icon: <GiSlicedBread /> },
+              { name: 'Burger', icon: <GiHamburger /> },
+              { name: 'Dessert', icon: <GiCakeSlice /> },
+              { name: 'Drink', icon: <GiCoffeeCup /> },
+              { name: 'Indian', icon: <GiIndiaGate /> },
+              { name: 'Mexican', icon: <GiTacos /> },
+              { name: 'Pasta', icon: <GiCupcake /> },
+              { name: 'Pizza', icon: <GiFullPizza /> },
+              { name: 'Salad', icon: <GiOpenedFoodCan /> },
+              { name: 'Sandwich', icon: <GiSandwich /> },
+              { name: 'Seafood', icon: <GiFishCooked /> },
+              { name: 'Vegan', icon: <GiPlantRoots /> }
+            ].map((category) => (
+              <button 
+                key={category.name}
+                className="category-btn"
+                onClick={() => navigate(`/category/${category.name}`)}
+              >
+                <span className="category-icon">{category.icon}</span>
+                {category.name}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Popular Foods Section */}
       <section className="popular-foods">
         <div className="container-home">
@@ -117,15 +178,14 @@ function Home() {
             <div className="error-message">{error}</div>
           ) : isLoading ? (
             <div className="loading">Loading...</div>
-          ) : allProducts.length > 0 ? (
+          ) : topRatedFoods.length > 0 ? (
             <div className="foods-grid">
-              {allProducts.map(food => (
-                <Link style={{textDecoration: "none"}} to={`/product/${food._id}`}>
-                  <div className="food-card" key={food.id || food._id}>
+              {topRatedFoods.map(food => (
+                  <div onClick={()=> navigate(`/product/${food._id}`)} className="food-card" key={food._id}>
                     <div className="food-image">
                       <img 
-                        src={food.image || '/default-food.jpg'} 
-                        alt={food.title || 'Food item'} 
+                        src={food.image} 
+                        alt={food.title} 
                         onError={(e) => {
                           e.target.src = '/default-food.jpg';
                         }}
@@ -146,12 +206,70 @@ function Home() {
                           <FaClock /> {food.prepTime || '15-20 min'}
                         </span>
                       </div>
+                      <span>Res: {food?.user?.restaurantName}</span>
+                      <br />
+                      <br />
                       <Link style={{textDecoration: "none"}} to={`/product/${food._id}`}>
                         <button className="add-to-cart">View Details</button>                    
                       </Link>
                     </div>
                   </div>
-                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="no-results">No food items available</div>
+          )}
+        </div>
+      </section>
+
+      {/* Latest Foods Section */}
+      <section className="popular-foods">
+        <div className="container-home">
+          <div className="section-header">
+            <h2>Latest Foods</h2>
+            <Link to='/all-product' className="view-all">View All</Link>
+          </div>
+          
+          {error ? (
+            <div className="error-message">{error}</div>
+          ) : isLoading ? (
+            <div className="loading">Loading...</div>
+          ) : latestFoods.length > 0 ? (
+            <div className="foods-grid">
+              {latestFoods.map(food => (
+                  <div onClick={()=> navigate(`/product/${food._id}`)} className="food-card" key={food._id}>
+                    <div className="food-image">
+                      <img 
+                        src={food.image} 
+                        alt={food.title} 
+                        onError={(e) => {
+                          e.target.src = '/default-food.jpg';
+                        }}
+                      />
+                      <div className="food-badge">
+                        {'★'.repeat(Math.round(food.rating || 0))}
+                        {'☆'.repeat(5 - Math.round(food.rating || 0))}
+                        <span>{food.rating || '0.0'}</span>
+                      </div>
+                    </div>
+                    <div className="food-info">
+                      <h3>{food.title || 'Unnamed Item'}</h3>
+                      <div className="food-meta">
+                        <span className="food-price">
+                          ${typeof food.price === 'number' ? food.price.toFixed(2) : '0.00'}
+                        </span>
+                        <span className="food-time">
+                          <FaClock /> {food.prepTime || '15-20 min'}
+                        </span>
+                      </div>
+                      <span>Res: {food?.user?.restaurantName}</span>
+                      <br />
+                      <br />
+                      <Link style={{textDecoration: "none"}} to={`/product/${food._id}`}>
+                        <button className="add-to-cart">View Details</button>                    
+                      </Link>
+                    </div>
+                  </div>
               ))}
             </div>
           ) : (
