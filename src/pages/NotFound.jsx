@@ -1,15 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const NotFound = () => {
-  return (
-    <div style={styles.container}>
-      <h1 style={styles.title}>404 - Page Not Found</h1>
-      <p style={styles.text}>Sorry, the page you're looking for doesn't exist.</p>
-      <Link to="/" style={styles.link}>Go back home</Link>
-    </div>
-  );
-};
 
 const styles = {
   container: {
@@ -36,5 +27,15 @@ const styles = {
     fontSize: "18px",
   },
 };
+const NotFound = () => {
+  return (
+    <div style={styles.container}>
+      <h1 style={styles.title}>404 - Page Not Found</h1>
+      <p style={styles.text}>Sorry, the page you're looking for doesn't exist.</p>
+      <Link to="/" style={styles.link}>Go back home</Link>
+    </div>
+  );
+};
+
 
 export default NotFound;
