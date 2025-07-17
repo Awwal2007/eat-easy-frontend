@@ -1,10 +1,10 @@
 import React from 'react';
 import "./App.css";
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
-// import NotFound from './pages/Notfound';
+// import NotFound from './pages/NotFound';
 import Header from './components/Header';
 import Home from './pages/Home';
-import SignUp from './pages/signUp';
+import SignUp from './pages/SignUp';
 import { Toaster } from 'sonner';
 import SellerSignup from './pages/SellerSignup';
 import SellerLogin from './pages/SellerLogin';
@@ -50,7 +50,7 @@ const AppContent = () => {
                 <Route path='/' element={<Home />} />
                 <Route path='/signup' element={<SignUp />} />
                 <Route path='/signin' element={<Login />} />
-                {/* <Route path='*' element={<NotFound />} /> */}
+                <Route path='*' element={<NotFound />} />
                 <Route path='/seller-signup' element={<SellerSignup />} />
                 <Route path='/seller-signin' element={<SellerLogin />} />
                 <Route path='/seller-dashboard' element={<SellerDashboard />} />
