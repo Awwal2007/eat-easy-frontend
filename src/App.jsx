@@ -1,7 +1,7 @@
 import React from 'react';
 import "./App.css";
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
-// import NotFound from './pages/NotFound';
+import NotFound from './pages/NotFound';
 import Header from './components/Header';
 import Home from './pages/Home';
 import SignUp from './pages/SignUp';
