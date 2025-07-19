@@ -92,7 +92,7 @@ const OrderSuccess = ({ order }) => {
       </div>
 
       <div className="action-buttons">
-        <Link to="/orders" className="btn view-orders-btn">
+        <Link to="/user-profile#order" className="btn view-orders-btn">
           View All Orders
         </Link>
         <Link to="/" className="btn continue-shopping-btn">

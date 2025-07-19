@@ -20,7 +20,7 @@ function OrderSuccessPage() {
   }, [state, navigate]);
 
   if (!state?.order) {
-    return <p>Redirecting...</p>; // fallback UI
+    return <p>Redirecting...</p>; // fallback UI    
   }
 
   return (

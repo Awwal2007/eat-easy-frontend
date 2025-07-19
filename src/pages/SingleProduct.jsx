@@ -4,6 +4,7 @@ import { useProduct } from '../Hooks/useProduct';
 import { toast } from 'sonner';
 import { useCart } from '../Hooks/useCart';
 import { FiPlus, FiMinus, FiShoppingCart } from 'react-icons/fi';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 
 
@@ -236,7 +237,7 @@ const SingleProduct = () => {
 
         <div className="action-buttons">
             <button className="add-to-cart" onClick={handleAddToWishList} disabled={cartIsLoading || !singleProduct?.food?._id}>
-               <FiShoppingCart size={20} /> {isWishListLoading ? " Adding..." : " Add to WishList"}
+               <FavoriteBorderIcon size={20} /> {isWishListLoading ? " Adding..." : " Add to WishList"}
             </button>
             <button className="add-to-cart" onClick={handleAddToCart} disabled={cartIsLoading || !singleProduct?.food?._id}>
                <FiShoppingCart size={20} /> {cartIsLoading ? " Adding..." : " Add to Cart"}
