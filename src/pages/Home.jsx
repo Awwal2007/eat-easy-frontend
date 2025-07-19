@@ -20,7 +20,7 @@ import { FaMotorcycle, FaClock, FaStoreAlt } from 'react-icons/fa';
 import './css/Home.css';
 import logo from "../assets/eat-easy logo head.png";
 import heroImg from "../assets/delivary-man-png.png";
-import { toast } from 'sonner';
+// import { toast } from 'sonner';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -69,7 +69,7 @@ function Home() {
       } catch (error) {
         console.error('Error fetching data:', error);
         setError(error.message);
-        toast.error('Failed to load data');
+        // toast.error('Failed to load data');
       } finally {
         setIsLoading(false);
       }
