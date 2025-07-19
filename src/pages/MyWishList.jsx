@@ -69,7 +69,7 @@ const MyWishList = () => {
         ) : (
           <>
             {wishList.map(item => (
-             <Link to={`/product/${item._id}`}>
+             <Link to={`/product/${item.productId}`}>
                <div key={item._id} className="cart-item">
                   <div className="item-image">
                     <img src={item.image} alt={item.title} />

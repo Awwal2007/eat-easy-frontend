@@ -271,7 +271,11 @@ const UserProfile = () => {
                 <div key={order._id} className="order-card">
                   <div className="order-header">
                     <span className="order-id">Order #{order._id}</span>
-                    <span className="order-date"><FiClock /> {order.updatedAt}</span>
+                    <span className="order-date"><FiClock /> {new Date(order.updatedAt).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric',
+                    })}</span>
                   </div>
                   <div className="order-restaurant">{order.restaurant}</div>
                   <div className="order-items">
@@ -305,8 +309,8 @@ const UserProfile = () => {
           ) : (
             <div className="no-orders">
               <p>You haven't placed any orders yet.</p>
-              <Link to="/restaurants" className="browse-button">
-                Browse Restaurants
+              <Link to="/all-product" className="browse-button">
+                Browse Foods
               </Link>
             </div>
           )}
