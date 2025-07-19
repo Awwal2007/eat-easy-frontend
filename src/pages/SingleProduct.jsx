@@ -19,7 +19,7 @@ const SingleProduct = () => {
         resetProduct
     } = useProduct();
 
-    const { addToCart, cartIsLoading, fetchCart, addToWishList, isWishListLoading } = useCart();
+    const { addToCart, cartIsLoading, fetchCart, addToWishList, isWishListLoading, fetchWishList } = useCart();
     let [cartField, setCartField] = useState({});
     let [quantity, setQuantity] = useState();
     const [inputVal, setInputVal] = useState(1);
@@ -43,6 +43,8 @@ const SingleProduct = () => {
             cartField.price = product?.price
             cartField.category = product?.category
             cartField.image = product?.image
+            cartField.user = originalUser._id
+            cartField.seller = product?.user?.id
             cartField.productId = product?._id
             if (quantity < 1) {
                 throw new Error('Quantity must be at least 1');
@@ -50,7 +52,8 @@ const SingleProduct = () => {
             cartField.quantity = quantity // Default quantity
             cartField.subTotal = parseInt(product?.price * quantity) 
             cartField.rating = product?.rating
-            cartField.createdBy = originalUser?._id
+            // cartField.createdBy = originalUser?._id
+            console.log(product?.user?.id)
 
             await addToCart(cartField);
             // toast.success(`${product.title} added to cart successfully`);
@@ -62,6 +65,7 @@ const SingleProduct = () => {
             toast.error(error.message);
         }
     };
+
     const handleAddToWishList = async () => {
         try {
             const product = singleProduct?.food;
@@ -90,6 +94,7 @@ const SingleProduct = () => {
             cartField.createdBy = originalUser?._id
 
             await addToWishList(cartField);
+            fetchWishList();
             // toast.success(`${product.title} added to cart successfully`);
             setCartField({});
             setInputVal(1);
@@ -211,7 +216,7 @@ const SingleProduct = () => {
         </div>
         
         <p className="product-description">{food.description}</p>
-        <p className="product-description">{food?.item?.restuorantName}</p>        
+        <p className="product-description">{food?.item?.restaurantName}</p>        
            <div className="quantity-selector">
                 <button 
                     className="quantity-btn" 

@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import logo from '../assets/eat-easy logo head.png'
 // import defaultImage from '../assets/profile-default-svgrepo-com.svg'
-import { FiSearch, FiShoppingCart, FiUser, FiMenu, FiX, FiStar } from 'react-icons/fi'
+import { FiSearch, FiShoppingCart, FiUser, FiMenu, FiX, FiStar, FiList } from 'react-icons/fi'
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import "./css/Header.css"
 import { Link, Navigate } from 'react-router-dom'
 // import { toast } from 'sonner'
@@ -13,7 +14,7 @@ const Header = () => {
   const [profile, setProfile] = useState()
   // const [cart, setCart] = useState([])
   const {logout, } = useAuth();
-  const {fetchCart, cart} = useCart();
+  const {fetchCart, cart, fetchWishList, wishList} = useCart();
   const token = localStorage.getItem("accessToken");
   // const user = JSON.parse(localStorage.getItem("user"));
   const baseUrl = import.meta.env.VITE_BASE_URL
@@ -41,6 +42,7 @@ const Header = () => {
 
     setTimeout(() => {
       fetchCart();
+      fetchWishList();
     },1000);     
   }, []);
 
@@ -63,11 +65,10 @@ const Header = () => {
           
           <div className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
             <a href="#">Restaurants</a>
-            <a href="#">My Orders</a>
+            <Link to="/user-profile">My Orders</Link>
             {token ? <Link onClick={()=> userLogout()}>Log Out</Link>:
             <Link to="/signin">Sign In</Link> } 
             <Link to="/seller-signin">Seller</Link>
-            <Link to="/wish-list">WishList</Link>
             <Link to="/all-product">Products</Link>
             <button className="close-menu" onClick={() => setIsMenuOpen(false)}>
               <FiX />
@@ -80,6 +81,15 @@ const Header = () => {
               <input type="text" placeholder="Search food or restaurant..." />
             </div> */}
             
+            <Link to="/wish-list">
+              <button className="cart-btn">
+                <FavoriteBorderIcon />
+                {wishList?.length > 0 && (
+                  <span className="cart-count">{wishList.length}</span>
+                )}
+              </button>
+            </Link>
+
             <Link to="/cart">
               <button className="cart-btn">
                 <FiShoppingCart />

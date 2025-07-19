@@ -11,7 +11,7 @@ export const CartProvider = ({ children }) => {
   const baseUrl = import.meta.env.VITE_BASE_URL;
 
   const addToCart = async (foodData) => {
-    console.log(foodData);
+    // console.log(foodData);
     
     try {
       setCartIsLoading(true);
@@ -20,6 +20,12 @@ export const CartProvider = ({ children }) => {
         return;
       }
       
+      const accessToken = localStorage.getItem('accessToken');
+      if (!accessToken) {
+        toast.error("You must be logged in to add items to the cart");
+        return;
+      }
+
       const user = JSON.parse(localStorage.getItem('user'))
       
       if(user.role !== "buyer"){
@@ -27,11 +33,6 @@ export const CartProvider = ({ children }) => {
         return;
       }
 
-      const accessToken = localStorage.getItem('accessToken');
-      if (!accessToken) {
-        toast.error("You must be logged in to add items to the cart");
-        return;
-      }
 
       const userId = JSON.parse(localStorage.getItem('user'))._id
 

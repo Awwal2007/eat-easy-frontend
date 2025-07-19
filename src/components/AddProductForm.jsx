@@ -12,7 +12,6 @@ const AddProductForm = () => {
         productImage: null,
         prepTime: "5",
         category: "Asian",
-        createdBy: null
     });
 
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -54,7 +53,7 @@ const AddProductForm = () => {
             return;
         }
 
-        const userId = JSON.parse(localStorage.getItem('sellerData'))?._id
+
 
         const formData = new FormData();
         formData.append("title", addProductFormData.title);
@@ -64,7 +63,6 @@ const AddProductForm = () => {
         formData.append("productImage", addProductFormData.productImage);
         formData.append("prepTime", addProductFormData.prepTime);
         formData.append("category", addProductFormData.category);
-        formData.append("user", userId);
 
         try {
             const res = await fetch(`${baseUrl}/food`, {

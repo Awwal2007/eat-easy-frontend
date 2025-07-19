@@ -28,6 +28,8 @@ const CheckoutPage = () => {
       try {
         
         setCartItems(cart);
+        console.log(cart);
+        
         
         // Pre-fill user data if available
         const userData = JSON.parse(localStorage.getItem('user')) || {};
@@ -131,6 +133,9 @@ const CheckoutPage = () => {
 
       toast.success(orderResult.message);
       console.log(orderResult)
+      setTimeout(()=> {
+        window.location.reload();
+      }, 1200)
       navigate('/order-success', {state: orderResult})
     } catch (error) {
       console.error('Order submission error:', error);

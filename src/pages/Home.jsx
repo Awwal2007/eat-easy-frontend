@@ -203,7 +203,7 @@ function Home() {
                           ${typeof food.price === 'number' ? food.price.toFixed(2) : '0.00'}
                         </span>
                         <span className="food-time">
-                          <FaClock /> {food.prepTime || '15-20 min'}
+                          <FaClock /> {food.prepTime || '15-20'} min
                         </span>
                       </div>
                       <span>Res: {food?.user?.restaurantName}</span>
@@ -259,7 +259,7 @@ function Home() {
                           ${typeof food.price === 'number' ? food.price.toFixed(2) : '0.00'}
                         </span>
                         <span className="food-time">
-                          <FaClock /> {food.prepTime || '15-20 min'}
+                          <FaClock /> {food.prepTime || '15-20'} min
                         </span>
                       </div>
                       <span>Res: {food?.user?.restaurantName}</span>

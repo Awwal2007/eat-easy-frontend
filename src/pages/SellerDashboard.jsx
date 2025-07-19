@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
+// import { jwtDecode } from 'jwt-decode';
 import { FiHome, FiShoppingBag, FiDollarSign, FiUsers, FiSettings, FiLogOut, FiBell, FiPieChart } from 'react-icons/fi';
 import { toast } from 'sonner';
 // import { useAuth } from '../Hooks/useAuth'
 import './css/SellerDashboard.css';
+// import axios from 'axios';
+import SellerMenuPage from '../components/SellerMenuPage';
+import SellerOrders from '../components/SellerOrders';
 
 const SellerDashboard = () => {
   const [sellerData, setSellerData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('dashboard');
+
   // const [orders, setOrders] = useState([]);
   const [sellerName, setSellerName] = useState();
   // const [stats, setStats] = useState({
@@ -36,6 +40,11 @@ const SellerDashboard = () => {
     console.error('Error decoding token:', error);
   }
 };
+
+
+
+
+
 
 // Usage
 // const userId = getUserIdFromToken();
@@ -251,9 +260,8 @@ const SellerDashboard = () => {
 
           {activeTab === 'orders' && (
             <div className="orders-management">
-              <h2>All Orders</h2>
               {/* Orders management content */}
-              <p>Orders management system will be implemented here</p>
+              <SellerOrders />
             </div>
           )}
 
@@ -265,8 +273,11 @@ const SellerDashboard = () => {
                 <p>Menu management system will be implemented here</p>
               </div>
               <Link to="/add-product">
-                <button className='add-product'>Add Product</button>
+                <button className='add-product'>Add Foods</button>
               </Link>
+              <div>
+                <SellerMenuPage />
+              </div>
             </div>
           )}
 
