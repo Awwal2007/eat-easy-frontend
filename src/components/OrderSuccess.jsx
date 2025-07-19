@@ -9,7 +9,7 @@ const OrderSuccess = ({ order }) => {
     date: new Date().toLocaleDateString(),
     items: order?.items || [],
     total: order?.totalAmount || 0,
-    deliveryAddress: order?.deliveryInstructions || '123 Main St, City, Country',
+    deliveryAddress: order?.address || '123 Main St, City, Country',
     estimatedDelivery: '30-45 minutes',
     paymentMethod: order?.paymentMethod || 'Credit Card'
   };
