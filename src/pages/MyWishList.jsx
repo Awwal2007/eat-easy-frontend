@@ -69,36 +69,38 @@ const MyWishList = () => {
         ) : (
           <>
             {wishList.map(item => (
-              <div key={item._id} className="cart-item">
-                <div className="item-image">
-                  <img src={item.image} alt={item.title} />
-                </div>
-                <div className="item-details">
-                  <h3>{item.title}</h3>
-                  <p className="item-price">Price: ${item.price.toFixed(2)}</p>
-                  <div className="rating-section">
-                    <span className="rating-stars">
-                      {'★'.repeat(Math.round(item.rating || 0))}
-                      {'☆'.repeat(5 - Math.round(item.rating || 0))}
-                    </span>
-                    <span className="rating-value">
-                      ({item.rating?.toFixed(1) || '0.0'})
-                    </span>
+             <Link to={`/product/${item._id}`}>
+               <div key={item._id} className="cart-item">
+                  <div className="item-image">
+                    <img src={item.image} alt={item.title} />
                   </div>
-                  <div>
-                    <p className="item-description">Description: {item.description}</p>
-                    <p className="item-description">Category: {item.category}</p>
+                  <div className="item-details">
+                    <h3>{item.title}</h3>
+                    <p className="item-price">Price: ${item.price.toFixed(2)}</p>
+                    <div className="rating-section">
+                      <span className="rating-stars">
+                        {'★'.repeat(Math.round(item.rating || 0))}
+                        {'☆'.repeat(5 - Math.round(item.rating || 0))}
+                      </span>
+                      <span className="rating-value">
+                        ({item.rating?.toFixed(1) || '0.0'})
+                      </span>
+                    </div>
+                    <div>
+                      <p className="item-description">Description: {item.description}</p>
+                      <p className="item-description">Category: {item.category}</p>
+                    </div>
                   </div>
-                </div>
-                <div className="item-actions">
-                  <button 
-                      className="remove-button"
-                      onClick={() => removeItem(item._id)}
-                  >
-                      <FiTrash2 />
-                  </button>
-                </div>
-            </div>
+                  <div className="item-actions">
+                    <button 
+                        className="remove-button"
+                        onClick={() => removeItem(item._id)}
+                    >
+                        <FiTrash2 />
+                    </button>
+                  </div>
+              </div>
+             </Link>
             ))}
           </>
         )}
