@@ -56,12 +56,11 @@ export const CartProvider = ({ children }) => {
 
       setCart(data);
       setTimeout(() => {
-        toast.success(`Item added to cart`);
+        toast.success(data.message);
       }, 1000);
       // return data.data;
       
     } catch (error) {
-      toast.error(error.message);
       console.log(error);      
     } finally {
       setTimeout(() => {
