@@ -82,7 +82,11 @@ const SingleProduct = () => {
                 throw new Error('Product data is not available');
             }
 
-            const user = JSON.parse(localStorage.getItem('user'))
+            const user = JSON.parse(localStorage.getItem('user'));
+            if(!user){
+              toast.error("You must be logged in before adding item to cart");
+              return
+            }
             const originalUser = user?.userData || user;
 
             cartField.title = product?.title
