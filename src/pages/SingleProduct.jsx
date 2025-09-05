@@ -38,7 +38,7 @@ const SingleProduct = () => {
 
             const user = JSON.parse(localStorage.getItem('user'))
             if(!user){
-              toast.error("you must be logged in before adding item to cart");
+              toast.error("You must be logged in before adding item to cart");
               return
             }
             const originalUser = user?.userData || user;
