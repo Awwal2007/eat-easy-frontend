@@ -267,7 +267,10 @@ const UserProfile = () => {
           <h2><FiShoppingBag /> Recent Orders</h2>
           {recentOrders.length > 0 ? (
             <div className="orders-list">
-              {recentOrders.sort((a,b)=> new Date(b.createdAt) - new Date(a.createdAt) ).map(order => (
+              {recentOrders
+              .sort((a,b)=> new Date(b.createdAt) - new Date(a.createdAt) )
+              .slice(0,5)
+              .map(order => (
                 <div key={order._id} className="order-card">
                   <div className="order-header">
                     <span className="order-id">Order #{order._id}</span>
